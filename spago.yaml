@@ -1,0 +1,16 @@
+package:
+  name: webb-refer
+  dependencies:
+    - console
+    - effect
+    - prelude
+    - refs
+    - profunctor-lenses
+    - aff
+  test:
+    main: Test.Main
+    dependencies: []
+workspace:
+  packageSet:
+    registry: 63.9.0
+  extraPackages: {}
