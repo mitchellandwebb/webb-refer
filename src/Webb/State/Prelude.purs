@@ -54,9 +54,10 @@ amodify f r = do
   awrite s' r 
   pure s'
   
+
 -- Operators to read from, or modify, a Ref
 infix 5 areads as <:
-infix 5 awrite as :=
+infix 5 fwrite as :=
 infix 5 amodify_ as :>
 
 fread :: forall m r s. MonadEffect m => Refer s r => r -> m s
