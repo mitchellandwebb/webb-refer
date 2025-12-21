@@ -2,8 +2,13 @@ module Webb.State.Prelude where
 
 import Prelude
 
+import Control.Monad.Except (ExceptT, lift)
+import Control.Monad.Identity.Trans (IdentityT)
+import Control.Monad.Maybe.Trans (MaybeT)
+import Control.Monad.Reader (ReaderT)
 import Control.Monad.State (State, StateT, runState)
 import Control.Monad.State as S
+import Control.Monad.Writer (WriterT)
 import Data.Lens (Lens', view)
 import Data.Tuple (Tuple(..))
 import Effect.Class (class MonadEffect, liftEffect)
@@ -124,3 +129,25 @@ applyStateFlipped = flip applyState
   
 infix 5 applyState as :>>
 infix 5 applyStateFlipped as <<:
+
+
+instance ReferM s m => ReferM s (ExceptT e m) where
+  mread = lift mread
+  mwrite s = lift $ mwrite s
+
+instance ReferM s m => ReferM s (MaybeT m) where
+  mread = lift mread
+  mwrite s = lift $ mwrite s
+
+instance ReferM s m => ReferM s (ReaderT r m) where
+  mread = lift mread
+  mwrite s = lift $ mwrite s
+
+instance (Monoid r, ReferM s m) => ReferM s (WriterT r m) where
+  mread = lift mread
+  mwrite s = lift $ mwrite s
+
+instance (ReferM s m) => ReferM s (IdentityT m) where
+  mread = lift mread
+  mwrite s = lift $ mwrite s
+
